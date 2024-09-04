@@ -21,7 +21,7 @@
 pip install -r requirements.txt
 ```
 
-Install [Opensmile](https://github.com/naxingyu/opensmile).
+Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 
 &nbsp;
 ## Contact
