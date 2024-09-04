@@ -17,10 +17,13 @@
 
 ## Usage 
 ### Prepare 
-Install dependencies:
-<code>pip install -r requirements.txt</code>
-Install [openSMILE 3.0.2](https://github.com/naxingyu/opensmile).
+```python
+pip install -r requirements.txt
+```
 
+Install [Opensmile](https://github.com/naxingyu/opensmile).
+
+&nbsp;
 ## Contact
 For any information, please contact the main author:
 
