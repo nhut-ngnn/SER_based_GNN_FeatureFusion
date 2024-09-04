@@ -9,10 +9,10 @@
 
 
 <p align="center">
-<img src="https://img.shields.io/badge/Long%20Short%20Term%20Memory-white"> 
-<img src="https://img.shields.io/badge/Bidirectional%20Long%20Short%20Term%20Memory-white">   
-<img src="https://img.shields.io/badge/RezoNet-white">     
-<img src="https://img.shields.io/badge/Hybrid%20CNN_BiLSTM-white">
+<img src="https://img.shields.io/badge/Graph_Neural_Network-white">   
+<img src="https://img.shields.io/badge/Feature_Fusion-white">     
+<img src="https://img.shields.io/badge/AlexNet-white">
+<img src="https://img.shields.io/badge/Sound_Emotion_Recognition-white">
 </p>
 
 ## Contact
