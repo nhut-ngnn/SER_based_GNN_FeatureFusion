@@ -15,6 +15,12 @@
 <img src="https://img.shields.io/badge/Sound_Emotion_Recognition-white">
 </p>
 
+## Usage 
+### Prepare 
+Install dependencies:
+<code>pip install -r requirements.txt</code>
+Install [openSMILE 3.0.2](https://github.com/naxingyu/opensmile).
+
 ## Contact
 For any information, please contact the main author:
 
