@@ -23,7 +23,25 @@ pip install -r requirements.txt
 
 Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 
-&nbsp;
+## Process
+<ul>
+        <li>
+            <input type="checkbox" id="task1">
+            <label for="task1">Complete HTML task</label>
+        </li>
+        <li>
+            <input type="checkbox" id="task2">
+            <label for="task2">Practice CSS</label>
+        </li>
+        <li>
+            <input type="checkbox" id="task3">
+            <label for="task3">Learn JavaScript</label>
+        </li>
+        <li>
+            <input type="checkbox" id="task4">
+            <label for="task4">Explore CUDA programming</label>
+        </li>
+</ul>
 ## Contact
 For any information, please contact the main author:
 
