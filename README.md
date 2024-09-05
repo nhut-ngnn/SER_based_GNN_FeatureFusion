@@ -1,4 +1,4 @@
-# Sound Emotion Recognition based Fusion Feature and Graph Neural Network </h1>
+# Speed Emotion Recognition based Fusion Feature and Graph Neural Network </h1>
 
 > Please press ⭐ button and/or cite papers if you feel helpful.
 
