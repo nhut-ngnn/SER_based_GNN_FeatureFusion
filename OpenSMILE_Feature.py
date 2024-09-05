@@ -5,8 +5,8 @@ import time
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from typing import Tuple
-from sklearn.externals import joblib
 from sklearn.model_selection import train_test_split
+import joblib
 
 from Config import Config
 
