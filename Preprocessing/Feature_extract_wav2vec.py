@@ -3,9 +3,10 @@ import torchaudio
 from transformers import Wav2Vec2Processor, Wav2Vec2Model
 import time
 import requests
+from utils import read_token
 
 # Hugging Face token (replace with your actual token)
-HUGGINGFACE_TOKEN = "your_huggingface_token" 
+HUGGINGFACE_TOKEN = read_token()
 
 # Load the pre-trained model and processor with authentication
 model_name = "facebook/wav2vec2-base-960h"
