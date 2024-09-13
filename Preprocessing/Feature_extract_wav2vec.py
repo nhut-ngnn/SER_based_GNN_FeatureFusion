@@ -5,7 +5,7 @@ import time
 import requests
 
 # Hugging Face token (replace with your actual token)
-HUGGINGFACE_TOKEN = "your_huggingface_token"
+HUGGINGFACE_TOKEN = "your_huggingface_token" 
 
 # Load the pre-trained model and processor with authentication
 model_name = "facebook/wav2vec2-base-960h"
