@@ -1,0 +1,15 @@
+HUGGINGFACE_TOKEN: "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"
+database:
+  host: localhost
+  password: secret
+  port: 5432
+  username: admin
+features:
+  enable_feature_x: true
+  enable_feature_y: false
+logging:
+  file: /var/log/app.log
+  level: INFO
+server:
+  host: 0.0.0.0
+  port: 8080
