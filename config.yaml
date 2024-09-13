@@ -1,1 +1,19 @@
-HUGGINGFACE_TOKEN: "your_initial_token_here"
+HUGGINGFACE_TOKEN: "your_initial_token_here" # Example configuration file
+
+database:
+  host: localhost
+  port: 5432
+  username: admin
+  password: secret
+
+logging:
+  level: INFO
+  file: /var/log/app.log
+
+features:
+  enable_feature_x: true
+  enable_feature_y: false
+
+server:
+  host: 0.0.0.0
+  port: 8080
