@@ -1,4 +1,9 @@
 HUGGINGFACE_TOKEN: "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"
+IEMOCAP_DIR: C:/Users/admin/Documents/GNN_SER/Data/IEMOCAP/
+EXECUTE_OPENSMILE: C:/Users/admin/Documents/GNN_SER/opensmile-3.0.2/bin/SMILExtract.ex
+OPENSMILE_CONFIG: C:/Users/admin/Documents/GNN_SER/opensmile-3.0.2/config/chroma/chroma_fft.conf
+
+
 database:
   host: localhost
   password: secret
