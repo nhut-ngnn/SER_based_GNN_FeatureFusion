@@ -3,7 +3,7 @@ import os
 import sys
 import csv
 import torch
-
+from utils import execute_opensmile, opensmile_config, iemocap_dir
 def csv_reader(add):
     with open(outfilename, 'r') as f:
         reader = csv.reader(f, delimiter=';')
@@ -15,7 +15,7 @@ def csv_reader(add):
 #### Load data
 emotions_used = { 'ang':0, 'hap':1, 'neu':2, 'sad':3 , 'exc':1}
 emotions_used_comp = {'Neutral;':2, 'Anger;':0, 'Sadness;':3, 'Happiness;':1}
-data_path = "C:/Users/admin/Documents/GNN_SER/Data/IEMOCAP/"
+data_path = iemocap_dir()
 sessions = ['Session1', 'Session2', 'Session3', 'Session4', 'Session5']
 framerate = 16000
 
@@ -24,8 +24,8 @@ Data = []
 fix_len = 120
 
 # openSMILE (Need to be changed)
-exe_opensmile = "C:/Users/admin/Documents/GNN_SER/opensmile-3.0.2/bin/SMILExtract.exe"
-path_config   = "C:/Users/admin/Documents/GNN_SER/opensmile-3.0.2/config/chroma/chroma_fft.conf"
+exe_opensmile = execute_opensmile()
+path_config   = opensmile_config()
 
 
 for sns in sessions:
