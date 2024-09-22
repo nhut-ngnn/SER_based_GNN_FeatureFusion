@@ -95,8 +95,9 @@ def main():
     # Training settings
     # Note: Hyper-parameters need to be tuned in order to obtain results reported in the paper.
     parser = argparse.ArgumentParser(description='Implementation of COMPACT GRAPH ARCHITECTURE FOR SPEECH EMOTION RECOGNITION paper')
-    parser.add_argument('--dataset', type=str, default="IEMOCAP",
+    parser.add_argument('--dataset', type=str, default="RAVDESS",
                         help='name of dataset (default: IEMOCAP)')
+    '''Change dataset to RAVDESS'''
     parser.add_argument('--device', type=int, default=0,
                         help='which gpu to use if any (default: 0)')
     parser.add_argument('--batch_size', type=int, default=128,
