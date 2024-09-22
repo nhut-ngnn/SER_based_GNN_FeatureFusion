@@ -30,6 +30,33 @@ Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 
 ## Experiment 
 ### Hyperparameter
+<table>
+  <tr>
+    <th>Hyperparameter</th>
+    <th>Index</th>
+    <th></th>
+    <th>Hyperparameter</th>
+    <th>Index</th>
+  </tr>
+  <tr>
+    <td>Batch size </td>
+    <td>128</td>
+    <td></td>
+    <td>K-fold</td>
+    <td>5</td>
+  </tr>
+  <tr>
+    <td>Epoch</td>
+    <td>100</td>
+    <td></td>
+    <td>Learning rate</td>
+    <td>Auto learning rate (min 0.0005)</td>
+  </tr>
+  <tr>
+    <td>GCN layers</td>
+    <td>2</td>
+  </tr>
+</table>
 ### Result
 
 ## Contact
