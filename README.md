@@ -60,8 +60,41 @@ Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
     <td>Sum Pooling, I also tried with MaxPooling and MeanPooling.</td>
   </tr>
 </table>
-### Result
 
+### Result
+With IEMOCAP, after 5 processing, I have the result follow table:
+<table>
+  <tr>
+    <th>Times</th>
+    <th>Weighted Accuracy</th>
+    <th>Unweighted Accuracy</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>63.24</td>
+    <td>60.35</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>61.88</td>
+    <td>59.21</td>
+  </tr>
+    <tr>
+    <td>3</td>
+    <td>61.05</td>
+    <td>60.07</td>
+  </tr>
+    <tr>
+    <td>4</td>
+    <td></td>
+    <td></td>
+  </tr>
+    <tr>
+    <td>5</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 ## Contact
 For any information, please contact the main author:
 
