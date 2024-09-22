@@ -27,6 +27,11 @@ Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 - [x] Preprocessing data (on RADVESS Dataset) 
 - [x] Feature extract with Librosa library (on RAVDESS Dataset)
 - [x] Feature extract with openSMILE 3.0 (on RAVDESS Dataset)
+
+## Experiment 
+### Hyperparameter
+### Result
+
 ## Contact
 For any information, please contact the main author:
 
