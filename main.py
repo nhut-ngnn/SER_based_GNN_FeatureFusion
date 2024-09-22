@@ -95,43 +95,24 @@ def main():
     # Training settings
     # Note: Hyper-parameters need to be tuned in order to obtain results reported in the paper.
     parser = argparse.ArgumentParser(description='Implementation of COMPACT GRAPH ARCHITECTURE FOR SPEECH EMOTION RECOGNITION paper')
-    parser.add_argument('--dataset', type=str, default="RAVDESS",
-                        help='name of dataset (default: IEMOCAP)')
-    '''Change dataset to RAVDESS'''
-    parser.add_argument('--device', type=int, default=0,
-                        help='which gpu to use if any (default: 0)')
-    parser.add_argument('--batch_size', type=int, default=128,
-                        help='input batch size for training (default: 32)')
-    parser.add_argument('--iters_per_epoch', type=int, default=50,
-                        help='number of iterations per each epoch (default: 90)')
-    parser.add_argument('--epochs', type=int, default=100,
-                        help='number of epochs to train (default: 1000)')
-    parser.add_argument('--lr', type=float, default=0.0005,
-                        help='learning rate (default: 0.01)')
-    parser.add_argument('--seed', type=int, default=0,
-                        help='random seed for splitting the dataset into 10 (default: 0)')
-    parser.add_argument('--fold_idx', type=int, default=5,
-                        help='the index of fold in 10-fold validation. Should be less then 10.')
-    parser.add_argument('--num_layers', type=int, default=2,
-                        help='number of layers INCLUDING the input one (default: 5)')
-    parser.add_argument('--hidden_dim', type=int, default=64,
-                        help='number of hidden units (default: 64)')
-    parser.add_argument('--final_dropout', type=float, default=0.5,
-                        help='final layer dropout (default: 0.5)')
-    parser.add_argument('--graph_pooling_type', type=str, default="sum", choices=["sum", "average"],
-                        help='Pooling over nodes in a graph to get graph embeddig: sum or average')
-    parser.add_argument('--graph_type', type=str, default="line", choices=["line", "cycle"],
-                        help='Graph construction options')
-    parser.add_argument('--Normalize', type=bool, default=True, choices=[True, False],
-                        help='Normalizing data')
-    parser.add_argument('--patience', type=int, default=10,
-                        help='Normalizing data')
-    parser.add_argument('--beta1', default=0.9, type=float,
-                        help='beta1 for adam')
-    parser.add_argument('--beta2', default=0.999, type=float,
-                        help='beta2 for adam')
-    parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float,
-                        metavar='W', help='weight decay (default: 1e-4)')
+    parser.add_argument('--dataset', type=str, default="IEMOCAP")
+    parser.add_argument('--device', type=int, default=0')
+    parser.add_argument('--batch_size', type=int, default=128')
+    parser.add_argument('--iters_per_epoch', type=int, default=50')
+    parser.add_argument('--epochs', type=int, default=100')
+    parser.add_argument('--lr', type=float, default=0.0005)
+    parser.add_argument('--seed', type=int, default=0)
+    parser.add_argument('--fold_idx', type=int, default=5)
+    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--hidden_dim', type=int, default=64)
+    parser.add_argument('--final_dropout', type=float, default=0.5)
+    parser.add_argument('--graph_pooling_type', type=str, default="sum", choices=["sum", "average"])
+    parser.add_argument('--graph_type', type=str, default="line", choices=["line", "cycle"])
+    parser.add_argument('--Normalize', type=bool, default=True, choices=[True, False])
+    parser.add_argument('--patience', type=int, default=10,)
+    parser.add_argument('--beta1', default=0.9, type=float)
+    parser.add_argument('--beta2', default=0.999, type=float)
+    parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float, metavar='W')
     args = parser.parse_args()
 
     #set up seeds and gpu device
@@ -156,8 +137,8 @@ def main():
         graph = nx.to_numpy_array(graph)
 
     # Now use the NumPy array to create a NetworkX graph
-    A = nx.from_numpy_array(graph)
-    # A = nx.to_numpy_array(train_graphs[0][0].g)
+    # A = nx.from_numpy_array(graph)
+    A = nx.to_numpy_array(train_graphs[0][0].g)
     if(args.graph_type == 'cycle'):
         A[0, -1] = 1
         A[-1, 0] = 1
