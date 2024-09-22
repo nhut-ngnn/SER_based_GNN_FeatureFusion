@@ -49,7 +49,7 @@ Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
   </tr>
   <tr>
     <td>Epoch</td>
-    <td>100</td>
+    <td>100 (early stopping valid_loss = 5)</td>
     <td>Learning rate</td>
     <td>Auto learning rate (min 0.0005)</td>
   </tr>
