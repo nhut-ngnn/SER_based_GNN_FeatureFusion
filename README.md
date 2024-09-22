@@ -24,37 +24,40 @@ pip install -r requirements.txt
 Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 
 ## Process
-- [x] Preprocessing data (on RADVESS Dataset) 
-- [x] Feature extract with Librosa library (on RAVDESS Dataset)
-- [x] Feature extract with openSMILE 3.0 (on RAVDESS Dataset)
+- [x] Preprocessing data (on IEMOCAP Dataset) 
+- [ ] Feature extract with Librosa library (on IEMOCAP Dataset)
+- [x] Feature extract with openSMILE 3.0 (on IEMOCAP Dataset)
+- [x] Feature extract with wav2vec 2.0 (on IEMOCAP Dataset)
 
 ## Experiment 
+### Dataset 
+- IEMOCAP with 4 classes: anger, excited, neural, sad.
+- Feature extract: using openSMILE 3.0.2 with Interspeech 2009 config.
 ### Hyperparameter
 <table>
   <tr>
     <th>Hyperparameter</th>
     <th>Index</th>
-    <th></th>
     <th>Hyperparameter</th>
     <th>Index</th>
   </tr>
   <tr>
     <td>Batch size </td>
     <td>128</td>
-    <td></td>
     <td>K-fold</td>
     <td>5</td>
   </tr>
   <tr>
     <td>Epoch</td>
     <td>100</td>
-    <td></td>
     <td>Learning rate</td>
     <td>Auto learning rate (min 0.0005)</td>
   </tr>
   <tr>
     <td>GCN layers</td>
     <td>2</td>
+    <td>Pooling layer</td>
+    <td>Sum Pooling, I also tried with MaxPooling and MeanPooling.</td>
   </tr>
 </table>
 ### Result
