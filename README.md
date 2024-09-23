@@ -33,7 +33,12 @@ Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 ### Baseline
 1. Feature extract
 2. Graph Construct
-   - Using graph cycle matrix
+   - Using graph cycle matrix, with topK algorithm =2
+3. Graph Convolution Neural Network
+   - 2 layers.
+   - Numbers of node: 120
+   - Numbers of dimenson: 64
+4. Pooling Layer: Sumpooling (ablation: Meanpooling, Maxpooling)
 ### Dataset 
 - IEMOCAP with 4 classes: anger, excited, neural, sad.
 - Feature extract: using openSMILE 3.0.2 with Interspeech 2009 config.
