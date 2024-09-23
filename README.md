@@ -72,17 +72,17 @@ With IEMOCAP, after 5 processing, I have the result follow table:
   <tr>
     <td>1</td>
     <td>63.24</td>
-    <td>60.35</td>
+    <td>63.00</td>
   </tr>
   <tr>
     <td>2</td>
     <td>61.88</td>
-    <td>59.21</td>
+    <td>61.59</td>
   </tr>
     <tr>
     <td>3</td>
     <td>61.05</td>
-    <td>60.07</td>
+    <td>60.97</td>
   </tr>
     <tr>
     <td>4</td>
