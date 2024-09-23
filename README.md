@@ -27,9 +27,13 @@ Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 - [x] Preprocessing data (on IEMOCAP Dataset) 
 - [ ] Feature extract with Librosa library (on IEMOCAP Dataset)
 - [x] Feature extract with openSMILE 3.0 (on IEMOCAP Dataset)
-- [x] Feature extract with wav2vec 2.0 (on IEMOCAP Dataset)
+- [ ] Feature extract with wav2vec 2.0 (on IEMOCAP Dataset)
 
-## Experiment 
+## Experiment
+### Baseline
+1. Feature extract
+2. Graph Construct
+   - Using graph cycle matrix
 ### Dataset 
 - IEMOCAP with 4 classes: anger, excited, neural, sad.
 - Feature extract: using openSMILE 3.0.2 with Interspeech 2009 config.
