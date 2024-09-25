@@ -16,10 +16,12 @@ from models.graphcnn import Graph_CNN_ortega
 from utils.pytorchtools import EarlyStopping
 
 
-criterion = nn.CrossEntropyLoss(weight=torch.FloatTensor([1,1,1,1]))
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+weight = torch.FloatTensor([1,1,1,1]).to(device)
+criterion = nn.CrossEntropyLoss(weight=weight)
 
 
-def train(args, model, device, train_graphs, optimizer, epoch):
+def train(args, model, device, train_graphs, optimizer, epoch, A):
     model.train()
 
     total_iters = args.iters_per_epoch
@@ -27,7 +29,7 @@ def train(args, model, device, train_graphs, optimizer, epoch):
 
     loss_accum = 0
     start = time.time()
-    for _ in pbar:
+    for pos in pbar:
         selected_idx = np.random.permutation(len(train_graphs))[:args.batch_size]
 
         batch_graph = [train_graphs[idx] for idx in selected_idx]
@@ -62,7 +64,7 @@ def train(args, model, device, train_graphs, optimizer, epoch):
 def pass_data_iteratively(model, graphs, minibatch_size = 64):
     model.eval()
     output = []
-    # ind = []
+    ind = []
     idx = np.arange(len(graphs))
     for i in range(0, len(graphs), minibatch_size):
         sampled_idx = idx[i:i+minibatch_size]
@@ -71,7 +73,7 @@ def pass_data_iteratively(model, graphs, minibatch_size = 64):
         output.append(model([graphs[j] for j in sampled_idx]).detach())
     return torch.cat(output, 0)
 
-def test(model, device, train_graphs, test_graphs):
+def test(args, model, device, train_graphs, test_graphs, num_class):
     model.eval()
 
     output = pass_data_iteratively(model, train_graphs)
@@ -95,24 +97,42 @@ def main():
     # Training settings
     # Note: Hyper-parameters need to be tuned in order to obtain results reported in the paper.
     parser = argparse.ArgumentParser(description='Implementation of COMPACT GRAPH ARCHITECTURE FOR SPEECH EMOTION RECOGNITION paper')
-    parser.add_argument('--dataset', type=str, default="IEMOCAP")
-    parser.add_argument('--device', type=int, default=0')
-    parser.add_argument('--batch_size', type=int, default=128')
-    parser.add_argument('--iters_per_epoch', type=int, default=50')
-    parser.add_argument('--epochs', type=int, default=100')
-    parser.add_argument('--lr', type=float, default=0.0005)
-    parser.add_argument('--seed', type=int, default=0)
-    parser.add_argument('--fold_idx', type=int, default=5)
-    parser.add_argument('--num_layers', type=int, default=2)
-    parser.add_argument('--hidden_dim', type=int, default=64)
-    parser.add_argument('--final_dropout', type=float, default=0.5)
-    parser.add_argument('--graph_pooling_type', type=str, default="sum", choices=["sum", "average"])
-    parser.add_argument('--graph_type', type=str, default="line", choices=["line", "cycle"])
-    parser.add_argument('--Normalize', type=bool, default=True, choices=[True, False])
-    parser.add_argument('--patience', type=int, default=10,)
-    parser.add_argument('--beta1', default=0.9, type=float)
-    parser.add_argument('--beta2', default=0.999, type=float)
-    parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float, metavar='W')
+    parser.add_argument('--dataset', type=str, default="IEMOCAP",
+                        help='name of dataset (default: IEMOCAP)')
+    parser.add_argument('--device', type=int, default=0,
+                        help='which gpu to use if any (default: 0)')
+    parser.add_argument('--batch_size', type=int, default=128,
+                        help='input batch size for training (default: 32)')
+    parser.add_argument('--iters_per_epoch', type=int, default=50,
+                        help='number of iterations per each epoch (default: 90)')
+    parser.add_argument('--epochs', type=int, default=1000,
+                        help='number of epochs to train (default: 1000)')
+    parser.add_argument('--lr', type=float, default=0.0005,
+                        help='learning rate (default: 0.01)')
+    parser.add_argument('--seed', type=int, default=0,
+                        help='random seed for splitting the dataset into 10 (default: 0)')
+    parser.add_argument('--fold_idx', type=int, default=5,
+                        help='the index of fold in 10-fold validation. Should be less then 10.')
+    parser.add_argument('--num_layers', type=int, default=2,
+                        help='number of layers INCLUDING the input one (default: 5)')
+    parser.add_argument('--hidden_dim', type=int, default=64,
+                        help='number of hidden units (default: 64)')
+    parser.add_argument('--final_dropout', type=float, default=0.5,
+                        help='final layer dropout (default: 0.5)')
+    parser.add_argument('--graph_pooling_type', type=str, default="sum", choices=["sum", "average"],
+                        help='Pooling over nodes in a graph to get graph embeddig: sum or average')
+    parser.add_argument('--graph_type', type=str, default="line", choices=["line", "cycle"],
+                        help='Graph construction options')
+    parser.add_argument('--Normalize', type=bool, default=True, choices=[True, False],
+                        help='Normalizing data')
+    parser.add_argument('--patience', type=int, default=10,
+                        help='Normalizing data')
+    parser.add_argument('--beta1', default=0.9, type=float,
+                        help='beta1 for adam')
+    parser.add_argument('--beta2', default=0.999, type=float,
+                        help='beta2 for adam')
+    parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float,
+                        metavar='W', help='weight decay (default: 1e-4)')
     args = parser.parse_args()
 
     #set up seeds and gpu device
@@ -128,26 +148,13 @@ def main():
     ##10-fold cross validation. Conduct an experiment on the fold specified by args.fold_idx.
     train_graphs, test_graphs = separate_data(graphs, args.seed, args.fold_idx)
 
-    # Assuming train_graphs[0][0].g is a Graph object
-    graph = train_graphs[0][0].g
-
-    # Check if graph is a NumPy array
-    if not isinstance(graph, np.ndarray):
-    # Convert to NumPy array if it is not
-        graph = nx.to_numpy_array(graph)
-
-    # Now use the NumPy array to create a NetworkX graph
-    # A = nx.from_numpy_array(graph)
-    A = nx.to_numpy_array(train_graphs[0][0].g)
+    A = nx.convert_matrix.to_numpy_matrix(train_graphs[0][0].g)
     if(args.graph_type == 'cycle'):
         A[0, -1] = 1
         A[-1, 0] = 1
-    A = nx.to_numpy_array(A)
     A = torch.Tensor(A).to(device)
 
-    node_features = np.array(train_graphs[0][0].node_features)
-    
-    model = Graph_CNN_ortega(args.num_layers, node_features.shape[1],
+    model = Graph_CNN_ortega(args.num_layers, train_graphs[0][0].node_features.shape[1],
                             args.hidden_dim, num_classes, args.final_dropout, args.graph_pooling_type,
                             device, A).to(device)
 
@@ -169,9 +176,9 @@ def main():
 
         # optimizer = RAdam(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
         #                   weight_decay=args.weight_decay)
-        # optimizer = optim.Adam(model.parameters(), lr=args.lr)
-        optimizer = AdamW(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
-                          weight_decay=args.weight_decay)
+        optimizer = optim.Adam(model.parameters(), lr=args.lr)
+        # optimizer = AdamW(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
+        #                   weight_decay=args.weight_decay)
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.5)
 
         early_stopping = EarlyStopping(patience=args.patience, verbose=True)
@@ -179,7 +186,7 @@ def main():
         for epoch in range(1, args.epochs + 1):
             scheduler.step()
 
-            train(args, model, device, train_data, optimizer, epoch)
+            avg_loss = train(args, model, device, train_data, optimizer, epoch, A)
 
             if(epoch>1):
                 #### Validation check
@@ -203,7 +210,7 @@ def main():
 
         model.load_state_dict(torch.load('checkpoint.pt'))
 
-        acc_train, acc_test, _, _ = test(model, device, train_data, test_data)
+        acc_train, acc_test, output, label = test(args, model, device, train_data, test_data, num_classes)
         acc_train_sum += acc_train
         acc_test_sum += acc_test
 
