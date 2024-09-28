@@ -8,13 +8,6 @@
 </p>
 
 
-<p align="center">
-<img src="https://img.shields.io/badge/Graph_Neural_Network-white">   
-<img src="https://img.shields.io/badge/Feature_Fusion-white">     
-<img src="https://img.shields.io/badge/AlexNet-white">
-<img src="https://img.shields.io/badge/Sound_Emotion_Recognition-white">
-</p>
-
 ## Usage 
 ### Prepare 
 ```python
