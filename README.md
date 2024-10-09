@@ -127,7 +127,14 @@ With IEMOCAP, after 5 processing, I have the result follow table:
       <th>58.62</th>
       <th>67.82</th> 
    </tr>
-
+   
+   <tr>
+      <th>CoGCN </th>
+      <th>56K</th>
+      <th>63.67</th>
+      <th>62.64</th> 
+   </tr
+      
    <tr>
       <th>**This study (3 layers)**</th>
       <th>0.40 (102,410)</th>
