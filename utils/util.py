@@ -114,49 +114,49 @@ def load_data(dataset, Normalize):
         g.edge_mat = torch.LongTensor(edges).transpose(0,1)
 
 
-    #Extracting unique tag labels   
-    # tagset = set([])
-    # for g in g_list:
-    #     tagset = tagset.union(set(g.node_tags))
+    # Extracting unique tag labels   
+    tagset = set([])
+    for g in g_list:
+        tagset = tagset.union(set(g.node_tags))
 
-    # tagset = list(tagset)
-    # tag2index = {tagset[i]:i for i in range(len(tagset))}
+    tagset = list(tagset)
+    tag2index = {tagset[i]:i for i in range(len(tagset))}
 
-    # for g in g_list:
-    #     g.node_features = torch.zeros(len(g.node_tags), len(g.g.node[0]['att']))
-    #     for i in range(len(g.node_tags)):
-    #             g.node_features[i] = torch.FloatTensor(g.g.node[i]['att'])
+    for g in g_list:
+        g.node_features = torch.zeros(len(g.node_tags), len(g.g.nodes[0]['att']))
+        for i in range(len(g.node_tags)):
+                g.node_features[i] = torch.FloatTensor(g.g._node[i]['att'])
                 
-    ### Normalizing
-    # if(Normalize):
-    #     X_concat = np.concatenate([graph.node_features.view(-1, graph.node_features.shape[1]) for graph in g_list])
-    #     Min = torch.Tensor(np.min(X_concat, axis=0))[:-2]
-    #     Ptp = torch.Tensor(np.ptp(X_concat, axis=0))[:-2]
-    #     for g in g_list:
-    #         g.node_features[:,:-2] = 2.*(g.node_features[:,:-2] - Min)/Ptp-1
+    ## Normalizing
+    if(Normalize):
+        X_concat = np.concatenate([graph.node_features.view(-1, graph.node_features.shape[1]) for graph in g_list])
+        Min = torch.Tensor(np.min(X_concat, axis=0))[:-2]
+        Ptp = torch.Tensor(np.ptp(X_concat, axis=0))[:-2]
+        for g in g_list:
+            g.node_features[:,:-2] = 2.*(g.node_features[:,:-2] - Min)/Ptp-1
             
-    # for g in g_list:
-    #     g.node_features2 = torch.zeros(len(g.node_tags), 2*len(g.g.node[0]['att']))
-    #     for i in range(len(g.node_tags)):
-    #         if(i == 0):
-    #             g.node_features2[i] = torch.cat([g.node_features[i], g.node_features[i]])
-    #         else:
-    #             g.node_features2[i] = torch.cat([g.node_features[i], g.node_features[i] - g.node_features[i-1]])
+    for g in g_list:
+        g.node_features2 = torch.zeros(len(g.node_tags), 2*len(g.g._node[0]['att']))
+        for i in range(len(g.node_tags)):
+            if(i == 0):
+                g.node_features2[i] = torch.cat([g.node_features[i], g.node_features[i]])
+            else:
+                g.node_features2[i] = torch.cat([g.node_features[i], g.node_features[i] - g.node_features[i-1]])
                 
-    # #### ADJ
-    # for g in g_list:
-    #     g.adj = torch.zeros(len(g.node_tags), len(g.node_tags))
-    #     dist = nn.CosineSimilarity(dim=0, eps=1e-6)
-    #     a = []
-    #     for i in range(len(g.node_tags)):
-    #         for j in range(len(g.node_tags)):
-    #             a.append(dist(g.node_features2[i], g.node_features2[j]))
-    #     g.adj = F.softmax(torch.Tensor(a), dim=0).view([len(g.node_tags), len(g.node_tags)])
+    #### ADJ
+    for g in g_list:
+        g.adj = torch.zeros(len(g.node_tags), len(g.node_tags))
+        dist = nn.CosineSimilarity(dim=0, eps=1e-6)
+        a = []
+        for i in range(len(g.node_tags)):
+            for j in range(len(g.node_tags)):
+                a.append(dist(g.node_features2[i], g.node_features2[j]))
+        g.adj = F.softmax(torch.Tensor(a), dim=0).view([len(g.node_tags), len(g.node_tags)])
 
 
 
     print('# classes: %d' % len(label_dict))
-    # print('# maximum node tag: %d' % len(tagset))
+    print('# maximum node tag: %d' % len(tagset))
 
     print("# data: %d" % len(g_list))
 

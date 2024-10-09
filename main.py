@@ -176,9 +176,9 @@ def main():
 
         # optimizer = RAdam(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
         #                   weight_decay=args.weight_decay)
-        optimizer = optim.Adam(model.parameters(), lr=args.lr)
-        # optimizer = AdamW(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
-        #                   weight_decay=args.weight_decay)
+        # optimizer = optim.Adam(model.parameters(), lr=args.lr)
+        optimizer = AdamW(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
+                          weight_decay=args.weight_decay)
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.5)
 
         early_stopping = EarlyStopping(patience=args.patience, verbose=True)
