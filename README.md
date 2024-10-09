@@ -98,6 +98,39 @@ With IEMOCAP, after 5 processing, I have the result follow table:
   </tr>
 </table>
 
+### Comparison
+<table>
+   <tr>
+      <th>Architecture</th>
+      <th>Parameters (MB)</th>
+      <th>WA</th>
+      <th>UA</th>
+   </tr>
+
+   <tr>
+      <th>Graph-LSTM (2 layers)</th>
+      <th>0.361</th>
+      <th>55.93</th>
+      <th>63.81</th>
+   </tr>
+
+   **<tr>
+      <th>Graph-LSTM (3 layers)</th>
+      <th>0.409</th>
+      <th>59.16</th> 
+      <th>68.15</th>
+   </tr>**
+
+   <tr>
+      <th>Graph-LSTM (4 layers)</th>
+      <th>0.591</th>
+      <th>58.62</th>
+      <th>67.82</th> 
+
+   </tr>
+</table>
+
+
 ## Contact
 For any information, please contact the main author:
 
