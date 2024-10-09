@@ -16,9 +16,8 @@ from models.graphcnn import Graph_CNN_ortega
 from utils.pytorchtools import EarlyStopping
 
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-weight = torch.FloatTensor([1,1,1,1]).to(device)
-criterion = nn.CrossEntropyLoss(weight=weight)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+criterion = nn.CrossEntropyLoss(weight=torch.tensor([1,1,1,1], device=device, dtype=torch.float))
 
 
 def train(args, model, device, train_graphs, optimizer, epoch, A):
@@ -148,7 +147,7 @@ def main():
     ##10-fold cross validation. Conduct an experiment on the fold specified by args.fold_idx.
     train_graphs, test_graphs = separate_data(graphs, args.seed, args.fold_idx)
 
-    A = nx.convert_matrix.to_numpy_matrix(train_graphs[0][0].g)
+    A = nx.to_numpy_matrix(train_graphs[0][0].g)
     if(args.graph_type == 'cycle'):
         A[0, -1] = 1
         A[-1, 0] = 1
@@ -176,9 +175,9 @@ def main():
 
         # optimizer = RAdam(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
         #                   weight_decay=args.weight_decay)
-        # optimizer = optim.Adam(model.parameters(), lr=args.lr)
-        optimizer = AdamW(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
-                          weight_decay=args.weight_decay)
+        optimizer = optim.Adam(model.parameters(), lr=args.lr)
+        # optimizer = AdamW(model.parameters(), lr=args.lr, betas=(args.beta1, args.beta2),
+        #                   weight_decay=args.weight_decay)
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.5)
 
         early_stopping = EarlyStopping(patience=args.patience, verbose=True)
