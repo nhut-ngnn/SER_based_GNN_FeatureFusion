@@ -5,6 +5,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
 import time
+import csv
 
 import networkx as nx
 
@@ -59,7 +60,6 @@ def train(args, model, device, train_graphs, optimizer, epoch, A):
     return average_loss
 
 
-###pass data to model with minibatch during testing to avoid memory overflow (does not perform backpropagation)
 def pass_data_iteratively(model, graphs, minibatch_size = 64):
     model.eval()
     output = []
@@ -91,6 +91,11 @@ def test(args, model, device, train_graphs, test_graphs, num_class):
     print("accuracy train: %f test: %f" % (acc_train, acc_test))
 
     return acc_train, acc_test, output, labels
+
+def write_results_to_csv(file_path, epoch, train_loss, val_loss, acc_train, acc_test):
+    with open(file_path, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([epoch, train_loss, val_loss, acc_train, acc_test])
 
 def main():
     # Training settings
@@ -134,17 +139,14 @@ def main():
                         metavar='W', help='weight decay (default: 1e-4)')
     args = parser.parse_args()
 
-    #set up seeds and gpu device
     torch.manual_seed(0)
     np.random.seed(0)    
     device = torch.device("cuda:" + str(args.device)) if torch.cuda.is_available() else torch.device("cpu")
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(0)
 
-    ##load data
     graphs, num_classes = load_data(args.dataset, args.Normalize)
 
-    ##10-fold cross validation. Conduct an experiment on the fold specified by args.fold_idx.
     train_graphs, test_graphs = separate_data(graphs, args.seed, args.fold_idx)
 
     A = nx.to_numpy_matrix(train_graphs[0][0].g)
@@ -169,6 +171,11 @@ def main():
     acc_train_sum = 0
     acc_test_sum = 0
 
+    csv_file_path = 'training_results.csv'
+    with open(csv_file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Epoch', 'Train Loss', 'Validation Loss', 'Train Accuracy', 'Test Accuracy'])
+
     for i in range(args.fold_idx):
         train_data =  train_graphs[i]
         test_data = test_graphs[i]
@@ -188,20 +195,21 @@ def main():
             avg_loss = train(args, model, device, train_data, optimizer, epoch, A)
 
             if(epoch>1):
-                #### Validation check
                 with torch.no_grad():
                     val_out = pass_data_iteratively(model, test_data)
                     val_labels = torch.LongTensor([graph.label for graph in test_data]).to(device)
                     val_loss = criterion(val_out, val_labels)
                     val_loss = np.average(val_loss.detach().cpu().numpy())
 
-                #### Check early stopping
                 early_stopping(val_loss, model)
 
                 if early_stopping.early_stop:
                     print("Early stopping")
                     break
 
+                # Log results to CSV
+                acc_train, acc_test, _, _ = test(args, model, device, train_data, test_data, num_classes)
+                write_results_to_csv(csv_file_path, epoch, avg_loss, val_loss, acc_train, acc_test)
 
             if((epoch>300)and(epoch % 20 ==0)) or (epoch % 10 ==0):
                 acc_train, acc_test, _, _ = test(args, model, device, train_data, test_data, num_classes)
