@@ -138,7 +138,7 @@ With IEMOCAP, after 5 processing, I have the result follow table:
    </tr
       
    <tr>
-      <th> **This study (3 layers)** </th>
+      <th> This study (3 layers) </th>
       <th>0.40 (102,410)</th>
       <th>62.27</th> 
       <th>65.73</th> 
