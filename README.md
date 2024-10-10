@@ -24,6 +24,7 @@ Install [Opensmile 3.0.2](https://github.com/naxingyu/opensmile).
 
 ## Experiment
  <img src="Figure/image.png" alt="The architecture of model" >
+ 
 ### Baseline
 1. Feature extract
 2. Graph Construct
